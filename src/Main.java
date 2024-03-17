@@ -1,3 +1,5 @@
+import jdk.internal.icu.lang.UCharacterDirection;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +31,7 @@ public class Main {
         String saveAdress2 = DIR_NAME + FILE_NAME2;
         String saveAdress3 = DIR_NAME + FILE_NAME3;
 
-        List<String> listFiles = new ArrayList();
+        List<String> listFiles = new ArrayList<>();
         listFiles.add(saveAdress1);
         listFiles.add(saveAdress2);
         listFiles.add(saveAdress3);
@@ -70,11 +72,11 @@ public class Main {
     }
 
 
-    public static void zipFiles(String zipFail, List<String> list) {
+    public static <UCharacterDirection> void zipFiles(String zipFail, List<String> list) {
         try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFail))) {
             for (String listFile1 : list) {
                 try (FileInputStream fis = new FileInputStream(listFile1)) {
-                    ZipEntry entry = new ZipEntry(listFile1);
+                    ZipEntry entry = new ZipEntry(listFile1.substring(listFile1.lastIndexOf('s')));
                     zos.putNextEntry(entry);
                     byte[] buffer = new byte[fis.available()];
                     fis.read(buffer);
